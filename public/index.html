@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Informații IP</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 600px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Informații IP</h1>
+    <div id="ip-info">
+        <p>Se încarcă informațiile...</p>
+    </div>
+
+    <script>
+        fetch('/get-ip')
+            .then(response => response.json())
+            .then(data => {
+                const ipInfoDiv = document.getElementById('ip-info');
+                ipInfoDiv.innerHTML = `
+                    <p><strong>IP:</strong> ${data.ip}</p>
+                    <p><strong>Locație:</strong> ${data.city}, ${data.region}, ${data.country}</p>
+                    <p><strong>Coordonate:</strong> ${data.latitude}, ${data.longitude}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Eroare:', error);
+                document.getElementById('ip-info').innerHTML = 'Nu s-au putut prelua informațiile';
+            });
+    </script>
+</body>
+</html>
